@@ -35,7 +35,7 @@ public class Player {
     @Override
     public String toString() {
         return "Player{" +
-                "myID=" + myID +
+                "id=" + myID +
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", country='" + country + '\'' +
@@ -53,48 +53,25 @@ public class Player {
         return myID;
     }
 
-    public void setMyID(int myID) {
-        this.myID = myID;
-    }
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getAge() {
         return age;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public String getCountry() {
         return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 
     public int getOverall() {
         return overall;
     }
 
-    public void setOverall(int overall) {
-        this.overall = overall;
-    }
-
     public int getPotential() {
         return potential;
-    }
-
-    public void setPotential(int potential) {
-        this.potential = potential;
     }
 
     public String getClub() {
@@ -127,10 +104,6 @@ public class Player {
 
     public String getPosition() {
         return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
     }
 
     public void addSkill(Skill skill) {

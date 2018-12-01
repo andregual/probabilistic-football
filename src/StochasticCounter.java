@@ -20,7 +20,7 @@ public class StochasticCounter {
     @Override
     public String toString() {
         return "StochasticCounter{" +
-                "myID=" + myID +
+                "id=" + myID +
                 ", probability=" + probability +
                 ", events=" + this.getEvents() +
                 ", value=" + value +

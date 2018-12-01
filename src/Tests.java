@@ -15,15 +15,28 @@ public class Tests {
 
     public static void StochasticCounterTest(List<Player> playerList) {
 
-        /* Creation of a StochasticCounter */
-        StochasticCounter sc = new StochasticCounter(0.5);
+        /* Creation of some StochasticCounters with differentes probabilities */
+        StochasticCounter sc1 = new StochasticCounter(0.1);
+        StochasticCounter sc2 = new StochasticCounter(0.2);
+        StochasticCounter sc3 = new StochasticCounter(0.5);
+        StochasticCounter sc4 = new StochasticCounter(0.8);
+        StochasticCounter sc5 = new StochasticCounter(0.9);
 
         /* Call the incrementStochasticCounter */
         for(Player p : playerList) {
-            sc.incrementStochasticCounter();
+            sc1.incrementStochasticCounter();
+            sc2.incrementStochasticCounter();
+            sc3.incrementStochasticCounter();
+            sc4.incrementStochasticCounter();
+            sc5.incrementStochasticCounter();
         }
 
-        System.out.println(sc);
+        /* Print StochasticCounter info */
+        System.out.println(sc1);
+        System.out.println(sc2);
+        System.out.println(sc3);
+        System.out.println(sc4);
+        System.out.println(sc5);
     }
 
 
