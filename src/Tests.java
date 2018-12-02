@@ -1,5 +1,8 @@
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 import java.util.*;
 import java.io.*;
+import java.security.*;
 
 public class Tests {
 
@@ -11,6 +14,11 @@ public class Tests {
 
         /* StochasticCounterTest call */
         StochasticCounterTest(playerList);
+
+        /* CountingBloomFilterTest call */
+        CountingBloomFilterTest(playerList);
+
+
     }
 
     public static void StochasticCounterTest(List<Player> playerList) {
@@ -37,6 +45,30 @@ public class Tests {
         System.out.println(sc3);
         System.out.println(sc4);
         System.out.println(sc5);
+    }
+
+    public static void CountingBloomFilterTest(List<Player> playerList) {
+
+        Set<String> countries = new HashSet<>();
+        for(Player p : playerList){
+            countries.add(p.getCountry());
+        }
+
+        /* Creation of two Counting Bloom Filters */
+        CountingBloomFilter cbf1 = new CountingBloomFilter(countries.size(), 0.1);
+        System.out.println("Capacity: " + cbf1.getCapacity() + "\n");
+        System.out.println("K: " + cbf1.getkHashFunctions() + "\n");
+        System.out.println("ID: " + cbf1.getMyID() + "\n");
+
+        for (Player p : playerList) {
+            cbf1.insertElement(p.getCountry());
+        }
+
+        for (Player p : playerList) {
+            System.out.println(cbf1.isElement(p.getCountry()));
+        }
+
+        System.out.println(cbf1.isElement("ViseuTerraMuseu"));
     }
 
 

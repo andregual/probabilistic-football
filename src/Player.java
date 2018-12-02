@@ -49,6 +49,10 @@ public class Player {
     }
 
     /* Getters and Setters */
+    public static int getId() {
+        return id;
+    }
+
     public int getMyID() {
         return myID;
     }
