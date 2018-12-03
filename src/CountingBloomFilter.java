@@ -5,15 +5,17 @@ public class CountingBloomFilter {
     private static int id = 0;
     private int myID;
     private int capacity;
+    private double falsePositiveProbability;
     private int kHashFunctions;
     private int[] B;
     private boolean empty;
 
     /* Constructor */
-    public CountingBloomFilter(int setSize, double loadFactor) {
+    public CountingBloomFilter(int setSize, double falsePositiveProbability) {
         this.myID = id;
         id++;
-        this.capacity = (int)(setSize/loadFactor);
+        this.falsePositiveProbability = falsePositiveProbability;
+        this.capacity = (int)Math.ceil( (setSize * Math.log(falsePositiveProbability)) / Math.log(1 / Math.pow(2, Math.log(2))));
         this.B = new int[capacity];
         this.kHashFunctions = (int)((Math.log(2)*capacity)/setSize);
         empty = true;
@@ -22,12 +24,12 @@ public class CountingBloomFilter {
     /* Methods */
     @Override
     public String toString() {
-        return "CountingBloomFilter{" +
-                "id=" + myID +
-                ", capacity=" + capacity +
-                ", kHashFunctions=" + kHashFunctions +
-                ", B=" + Arrays.toString(B) +
-                '}';
+        return "Counting Bloom Filter\n" +
+                "-> ID: " + myID + "\n" +
+                "-> Capacity: " + capacity + "\n" +
+                "-> False Positive Probability: " + falsePositiveProbability + "\n" +
+                "-> Number of Hash Functions: " + kHashFunctions + "\n" +
+                "-> Is empty? " + empty + "\n";
     }
 
     public void makeEmpty() {
@@ -42,12 +44,8 @@ public class CountingBloomFilter {
     public void insertElement(String element) {
         for(int i = 0; i < kHashFunctions; i++) {
             element = element + Integer.toString(i);
-
-            System.out.println(element);
             long hash = this.djb2Algorithm(element);
-            System.out.println(hash);
-            hash = (hash % capacity) + 1;
-            System.out.println(hash);
+            hash = (hash % capacity);
             this.B[(int) hash]++;
         }
         empty = false;
@@ -56,7 +54,7 @@ public class CountingBloomFilter {
     public boolean isElement(String element) {
         for(int i = 0; i < kHashFunctions; i++) {
             element = element + Integer.toString(i);
-            long hash = (this.djb2Algorithm(element) % capacity) + 1;
+            long hash = (this.djb2Algorithm(element) % capacity);
             if(this.B[(int) hash] == 0){
                 return false;
             }
@@ -67,7 +65,7 @@ public class CountingBloomFilter {
     public void deleteElement(String element) {
         for(int i = 0; i < kHashFunctions; i++) {
             element = element + Integer.toString(i);
-            long hash = (this.djb2Algorithm(element) % capacity) + 1;
+            long hash = (this.djb2Algorithm(element) % capacity);
             if(this.B[(int) hash] > 0){
                 this.B[(int)hash]--;
             }
@@ -81,7 +79,7 @@ public class CountingBloomFilter {
         int min = Integer.MAX_VALUE;
         for(int i = 0; i < kHashFunctions; i++){
             element = element + Integer.toString(i);
-            long hash = (this.djb2Algorithm(element) % capacity) + 1;
+            long hash = (this.djb2Algorithm(element) % capacity);
             if(this.B[(int)hash] < min){
                 min = this.B[(int)hash];
             }
@@ -111,5 +109,9 @@ public class CountingBloomFilter {
 
     public int getkHashFunctions() {
         return kHashFunctions;
+    }
+
+    public double getLoadFactor() {
+        return falsePositiveProbability;
     }
 }
