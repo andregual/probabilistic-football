@@ -1,6 +1,6 @@
-import java.util.Arrays;
+import java.util.*;
 
-public class CountingBloomFilter {
+public class CountingBloomFilter<T> {
     /* Attributes */
     private static int id = 0;
     private int myID;
@@ -9,6 +9,9 @@ public class CountingBloomFilter {
     private int kHashFunctions;
     private int[] B;
     private boolean empty;
+    private int prime = 2147483647;
+    private int[] a;
+    private int[] b;
 
     /* Constructor */
     public CountingBloomFilter(int setSize, double falsePositiveProbability) {
@@ -19,6 +22,16 @@ public class CountingBloomFilter {
         this.B = new int[capacity];
         this.kHashFunctions = (int)((Math.log(2)*capacity)/setSize);
         empty = true;
+
+        /* Initialize arrays a[] and b[] with random integers from 1 to prime (2147483647) */
+        this.a = new int[kHashFunctions];
+        this.b = new int[kHashFunctions];
+        Random rand = new Random();
+        for(int i = 0; i < kHashFunctions; i++)
+        {
+            a[i] = rand.nextInt(prime) + 1;
+            b[i] = rand.nextInt(prime) + 1;
+        }
     }
 
     /* Methods */
@@ -41,20 +54,21 @@ public class CountingBloomFilter {
         return empty;
     }
 
-    public void insertElement(String element) {
+    public void insertElement(T element) {
+        long hash = element.hashCode() & 0xffffffffL;
         for(int i = 0; i < kHashFunctions; i++) {
-            element = element + Integer.toString(i);
-            long hash = this.djb2Algorithm(element);
+            hash = ((a[i]*hash + b[i]) % prime);
             hash = (hash % capacity);
             this.B[(int) hash]++;
         }
         empty = false;
     }
 
-    public boolean isElement(String element) {
+    public boolean isElement(T element) {
+        long hash = element.hashCode() & 0xffffffffL;
         for(int i = 0; i < kHashFunctions; i++) {
-            element = element + Integer.toString(i);
-            long hash = (this.djb2Algorithm(element) % capacity);
+            hash = ((a[i]*hash + b[i]) % prime);
+            hash = (hash % capacity);
             if(this.B[(int) hash] == 0){
                 return false;
             }
@@ -62,24 +76,26 @@ public class CountingBloomFilter {
         return true;
     }
 
-    public void deleteElement(String element) {
+    public void deleteElement(T element) {
+        long hash = element.hashCode() & 0xffffffffL;
         for(int i = 0; i < kHashFunctions; i++) {
-            element = element + Integer.toString(i);
-            long hash = (this.djb2Algorithm(element) % capacity);
+            hash = ((a[i]*hash + b[i]) % prime);
+            hash = (hash % capacity);
             if(this.B[(int) hash] > 0){
                 this.B[(int)hash]--;
             }
         }
     }
 
-    public int count(String element){
+    public int count(T element){
         if(!this.isElement(element)){
             return 0;
         }
         int min = Integer.MAX_VALUE;
-        for(int i = 0; i < kHashFunctions; i++){
-            element = element + Integer.toString(i);
-            long hash = (this.djb2Algorithm(element) % capacity);
+        long hash = element.hashCode() & 0xffffffffL;
+        for(int i = 0; i < kHashFunctions; i++) {
+            hash = ((a[i]*hash + b[i]) % prime);
+            hash = (hash % capacity);
             if(this.B[(int)hash] < min){
                 min = this.B[(int)hash];
             }
@@ -88,17 +104,16 @@ public class CountingBloomFilter {
     }
 
     /* djb2 algorithm */
-    public long djb2Algorithm(String s) {
+    /*public long djb2Algorithm(String s) {
         char[] array = s.toCharArray();
         long hash = 5381 & 0xffffffffL;
         for(int i = 0 ; i < array.length ; ++i){
             hash = (1 + (((int)(hash*33) + array[i]) % 2147483647)) & 0xffffffffL;
         }
         return hash;
-    }
+    }*/
 
     /* Getters and Setters */
-
     public int getMyID() {
         return myID;
     }
@@ -107,11 +122,11 @@ public class CountingBloomFilter {
         return capacity;
     }
 
-    public int getkHashFunctions() {
-        return kHashFunctions;
+    public double getFalsePositiveProbability() {
+        return falsePositiveProbability;
     }
 
-    public double getLoadFactor() {
-        return falsePositiveProbability;
+    public int getkHashFunctions() {
+        return kHashFunctions;
     }
 }

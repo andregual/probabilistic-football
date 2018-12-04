@@ -3,6 +3,7 @@ import java.io.*;
 
 public class Tests {
 
+
     /* Main function */
     public static void main(String[] args) {
 
@@ -68,7 +69,7 @@ public class Tests {
         }
 
         /* Creation of one CountingBloomFilter */
-        CountingBloomFilter cbf1 = new CountingBloomFilter(countries.size(), 0.0000001);
+        CountingBloomFilter<String> cbf1 = new CountingBloomFilter<String>(countries.size(), 0.0000001);
 
         /* Print CountingBloomFilter info */
         System.out.println(cbf1);
@@ -163,6 +164,21 @@ public class Tests {
 
                 /* Creating new player */
                 Player p = new Player(name,age,country,overall,potential,club,value,wage,position);
+
+                /* Get the player skills */
+                HashMap<String, Integer> aux = new HashMap<>();
+                aux.put("acceleration",13);
+                aux.put("dribbling",21);
+                aux.put("finishing",22);
+                aux.put("shotPower",39);
+                aux.put("strength",44);
+                for(String skill : aux.keySet()) {
+                    try {
+                        p.addSkill(new Skill(skill, Integer.parseInt(lineArray[aux.get(skill)].substring(0,2))));
+                    } catch (StringIndexOutOfBoundsException e) {
+                        p.addSkill(new Skill(skill, Integer.parseInt(lineArray[aux.get(skill)].substring(0,1))));
+                    }
+                }
 
                 /* Add the player do the players list */
                 playersList.add(p);
