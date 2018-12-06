@@ -14,6 +14,7 @@ public class Player {
     private double wage;
     private String position;
     private List<Skill> skills;
+    private Map<String, Integer> characteristicMatrix;
 
     /* Constructor */
     public Player(String name, int age, String country, int overall, int potential, String club, double value, double wage, String position) {
@@ -29,6 +30,7 @@ public class Player {
         this.wage = wage;
         this.position = position;
         skills = new ArrayList<>();
+        characteristicMatrix = new HashMap<>();
     }
 
     /* Methods */
@@ -112,5 +114,13 @@ public class Player {
 
     public void addSkill(Skill skill) {
         this.skills.add(skill);
+    }
+
+    public Map<String, Integer> getCharacteristicMatrix() {
+        return characteristicMatrix;
+    }
+
+    public void setCharacteristicMatrix(Map<String, Integer> characteristicMatrix) {
+        this.characteristicMatrix = characteristicMatrix;
     }
 }

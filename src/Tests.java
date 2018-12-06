@@ -1,3 +1,5 @@
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 import java.util.*;
 import java.io.*;
 
@@ -15,6 +17,9 @@ public class Tests {
 
         /* CountingBloomFilterTest call */
         CountingBloomFilterTest(playerList);
+
+        /* MinHashTest call */
+        MinHashTest(playerList);
 
         System.exit(0);
 
@@ -115,6 +120,53 @@ public class Tests {
         System.out.println("---------------------------------\n");
     }
 
+    public static void MinHashTest(List<Player> playerList) {
+
+        Map<String, Integer> characteristicMatrix = new HashMap<>();
+
+        List<String> aux = new ArrayList<>();
+        aux.add("acceleration");
+        aux.add("dribbling");
+        aux.add("finishing");
+        aux.add("shotPower");
+        aux.add("strength");
+
+        for(String s : aux) {
+            for(int i = 1; i <= 10; i++) {
+                String skill = s + Integer.toString(i);
+                characteristicMatrix.put(skill,0);
+            }
+        }
+
+        for(Player p : playerList) {
+            p.setCharacteristicMatrix(characteristicMatrix);
+            for(int i = 0; i < 5; i++) {
+                Skill skill = p.getSkills().get(i);
+                if(0 <= skill.getValue() && skill.getValue() <= 10) {
+                    p.getCharacteristicMatrix().put(skill.getName() + Integer.toString(1), 1);
+                } else if (10 < skill.getValue() && skill.getValue() <= 20){
+                    p.getCharacteristicMatrix().put(skill.getName() + Integer.toString(2), 1);
+                } else if (20 < skill.getValue() && skill.getValue() <= 30){
+                    p.getCharacteristicMatrix().put(skill.getName() + Integer.toString(3), 1);
+                } else if (30 < skill.getValue() && skill.getValue() <= 40){
+                    p.getCharacteristicMatrix().put(skill.getName() + Integer.toString(4), 1);
+                } else if (40 < skill.getValue() && skill.getValue() <= 50){
+                    p.getCharacteristicMatrix().put(skill.getName() + Integer.toString(5), 1);
+                } else if (50 < skill.getValue() && skill.getValue() <= 60){
+                    p.getCharacteristicMatrix().put(skill.getName() + Integer.toString(6), 1);
+                } else if (60 < skill.getValue() && skill.getValue() <= 70){
+                    p.getCharacteristicMatrix().put(skill.getName() + Integer.toString(7), 1);
+                } else if (70 < skill.getValue() && skill.getValue() <= 80){
+                    p.getCharacteristicMatrix().put(skill.getName() + Integer.toString(8), 1);
+                } else if (80 < skill.getValue() && skill.getValue() <= 90){
+                    p.getCharacteristicMatrix().put(skill.getName() + Integer.toString(9), 1);
+                } else if (90 < skill.getValue() && skill.getValue() <= 100){
+                    p.getCharacteristicMatrix().put(skill.getName() + Integer.toString(10), 1);
+                }
+            }
+        }
+
+    }
 
     public static List<Player> getPlayers() {
 
