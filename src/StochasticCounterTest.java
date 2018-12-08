@@ -1,29 +1,13 @@
 import java.util.*;
 import java.io.*;
 
-public class Tests {
-
+public class StochasticCounterTest {
 
     /* Main function */
     public static void main(String[] args) {
 
-        /* Get the Players Complete Dataset */
+        /* Get the players complete dataset */
         List<Player> playerList = getPlayers();
-
-        /* StochasticCounterTest call */
-        StochasticCounterTest(playerList);
-
-        /* CountingBloomFilterTest call */
-        CountingBloomFilterTest(playerList);
-
-        /* MinHashTest call */
-        MinHashTest(playerList);
-
-        System.exit(0);
-
-    }
-
-    public static void StochasticCounterTest(List<Player> playerList) {
 
         /* Begin of StochasticCounterTest */
         System.out.println("\n-----------------------");
@@ -47,6 +31,7 @@ public class Tests {
         }
 
         /* Print StochasticCounter info */
+        System.out.println("STOCHASTIC COUNTERS INFO:\n");
         System.out.println(sc1);
         System.out.println(sc2);
         System.out.println(sc3);
@@ -57,108 +42,6 @@ public class Tests {
         System.out.println("\n------------------------------");
         System.out.println("End of Stochastic Counter Test");
         System.out.println("------------------------------\n\n");
-    }
-
-    public static void CountingBloomFilterTest(List<Player> playerList) {
-
-        /* Begin of CountingBloomFilterTest */
-        System.out.println("\n--------------------------");
-        System.out.println("Counting Bloom Filter Test");
-        System.out.println("--------------------------\n");
-
-        Set<String> countries = new HashSet<>();
-        for(Player p : playerList){
-            countries.add(p.getCountry());
-        }
-
-        /* Creation of one CountingBloomFilter */
-        CountingBloomFilter<String> cbf1 = new CountingBloomFilter<>(countries.size(), 0.0000001);
-
-        /* Print CountingBloomFilter info */
-        System.out.println(cbf1);
-
-        /* Insertion of countries in the CountingBloomFilter */
-        System.out.println("*Insertion of countries in the Counting Bloom Filter... \n");
-        for (Player p : playerList) {
-            cbf1.insertElement(p.getCountry());
-        }
-
-        /* Check if CountingBloomFilter is empty after insertion */
-        System.out.println("Is empty after insertion? " + cbf1.isEmpty() + "\n");
-
-        /* Check if a country is a possible member of CountingBloomFilter */
-        System.out.println("*Countries check:\n");
-        countries.add("PaisInexistente");
-        countries.add("PaisInexistente2");
-        countries.add("PaisInexistente3");
-        for (String country : countries) {
-            if(cbf1.isElement(country)) {
-                System.out.println(country + " is probably in the Counting Bloom Filter. \nCount: " + cbf1.count(country) + "\n");
-            } else {
-                System.out.println(country + " is not in the Counting Bloom Filter. \nCount: " + cbf1.count(country) + "\n");
-            }
-        }
-
-        /* Decrement the count of a country by two */
-        System.out.println("*Decrement the count of a country by one\n");
-        for(String country : countries){
-            if(cbf1.isElement(country)){
-                System.out.println("-> Country: " + country + "\n");
-                System.out.println("   Count before decrement: " + cbf1.count(country) + "\n");
-                cbf1.deleteElement(country);
-                System.out.println("   Count after decrement: " + cbf1.count(country) + "\n");
-            } else {
-                System.out.println(country + " is not in the Counting Bloom Filter. \nCount: " + cbf1.count(country) + "\n");
-            }
-        }
-
-        /* End of CountingBloomFilterTest */
-        System.out.println("\n---------------------------------");
-        System.out.println("End of Counting Bloom Filter Test");
-        System.out.println("---------------------------------\n");
-    }
-
-    public static void MinHashTest(List<Player> playerList) {
-
-        /* Begin of MinHashTest */
-        System.out.println("\n------------");
-        System.out.println("MinHash Test");
-        System.out.println("------------\n");
-
-
-        HashMap<String, Set<Integer>> clubs = new HashMap<>();
-
-        for(Player p : playerList) {
-            if(!clubs.containsKey(p.getClub())) {
-                Set<Integer> values = new HashSet<>();
-                values.add(p.getOverall());
-                clubs.put(p.getClub(), values);
-            } else {
-                Set<Integer> values = clubs.get(p.getClub());
-                values.add(p.getOverall());
-                clubs.put(p.getClub(), values);
-            }
-        }
-
-        MinHash minHash = new MinHash(clubs, 100);
-
-        for(String country : clubs.keySet()) {
-            Set<Integer> clubOveralls = clubs.get(country);
-            int i = 0;
-            int[] overalls = new int[clubOveralls.size()];
-            for(Integer overall : clubOveralls) {
-                overalls[i] = (int)(overall);
-                i++;
-            }
-            minHash.computeSignature(overalls);
-        }
-
-        minHash.findSimiliarPairs(0.4);
-
-        /* End of MinHashTest */
-        System.out.println("\n-------------------");
-        System.out.println("End of MinHash Test");
-        System.out.println("-------------------\n");
 
     }
 
@@ -233,7 +116,7 @@ public class Tests {
                 line = br.readLine();
             }
         } catch (IOException e) {
-            System.out.println("\nError opening the file.");
+            System.out.println("\nError reading the file.");
         }
 
         for(Player p : playersList) {

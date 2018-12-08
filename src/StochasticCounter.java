@@ -5,9 +5,6 @@ public class StochasticCounter {
     private double probability;
     private int events;
     private int value;
-    private double mean;
-    // private double variance;
-    // private double standardDeviation;
 
     /* Constructor */
     public StochasticCounter(double probability) {
@@ -24,7 +21,9 @@ public class StochasticCounter {
                 ", probability=" + probability +
                 ", events=" + this.getEvents() +
                 ", value=" + value +
-                ", mean=" + this.getMean() +
+                ", expected value=" + String.format("%.2f",this.expectedValue()) +
+                ", variance=" + String.format("%.2f",this.getVariance()) +
+                ", standard deviation=" + String.format("%.2f",this.getStandardDeviation()) +
                 '}';
     }
 
@@ -53,8 +52,20 @@ public class StochasticCounter {
         return events;
     }
 
-    public double getMean() {
-        mean = events*probability;
-        return mean;
+    public double expectedValue() {
+        return events*probability;
+    }
+
+    public double getVariance() {
+        double individualVariance = (Math.pow(0,2)*(1-probability) + Math.pow(1,2)*probability) - Math.pow(0*(1-probability) + 1*probability,2);
+        double variance = 0;
+        for(int i = 0; i < getEvents(); i++) {
+            variance += individualVariance;
+        }
+        return variance;
+    }
+
+    public double getStandardDeviation() {
+        return Math.sqrt(getVariance());
     }
 }

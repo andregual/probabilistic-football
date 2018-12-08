@@ -29,10 +29,32 @@ public class CountingBloomFilter<T> {
         Random rand = new Random();
         for(int i = 0; i < kHashFunctions; i++)
         {
-            a[i] = rand.nextInt(prime) + 1;
-            b[i] = rand.nextInt(prime) + 1;
+            a[i] = rand.nextInt(prime-1) + 1;
+            b[i] = rand.nextInt(prime-1) + 1;
         }
     }
+
+    public CountingBloomFilter(int setSize, double falsePositiveProbability, int kHashFunctions) {
+        this.myID = id;
+        id++;
+        this.falsePositiveProbability = falsePositiveProbability;
+        this.capacity = (int)Math.ceil( (setSize * Math.log(falsePositiveProbability)) / Math.log(1 / Math.pow(2, Math.log(2))));
+        this.B = new int[capacity];
+        this.kHashFunctions = kHashFunctions;
+        empty = true;
+
+        /* Initialize arrays a[] and b[] with random integers from 1 to prime (2147483647) */
+        this.a = new int[kHashFunctions];
+        this.b = new int[kHashFunctions];
+        Random rand = new Random();
+        for(int i = 0; i < kHashFunctions; i++)
+        {
+            a[i] = rand.nextInt(prime-1) + 1;
+            b[i] = rand.nextInt(prime-1) + 1;
+        }
+    }
+
+
 
     /* Methods */
     @Override
