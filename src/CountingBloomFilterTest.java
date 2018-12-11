@@ -7,8 +7,8 @@ public class CountingBloomFilterTest {
 
         /* Begin of CountingBloomFilterTest */
         System.out.println("\n--------------------------");
-        System.out.println("Counting Bloom Filter Test");
-        System.out.println("--------------------------\n");
+        System.out.println("\nCounting Bloom Filter Test");
+        System.out.println("\n--------------------------\n");
 
         /* Number of random strings */
         int m = 1000;
@@ -21,65 +21,82 @@ public class CountingBloomFilterTest {
 
         char[] alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
 
-        /* Initialize Counting Bloom Filter */
-        CountingBloomFilter<String> cbf = new CountingBloomFilter<>(n, 0.0000001, k);
-
-        Random rand = new Random();
-        List<String> strings = new ArrayList<>();
-
-        System.out.println("Generating 1000 random strings...\n");
-        for(int i = 0; i < m; i++) {
-            String randString = "";
-            for(int j = 0; j < stringSize; j++) {
-                randString += Character.toString(alphabet[rand.nextInt(alphabet.length-1)]);
-            }
-            strings.add(randString);
-            cbf.insertElement(randString);
-            cbf.insertElement(randString);
-        }
-
-        System.out.println("\nCheck if a string is in the Counting Bloom Filter and decrement it value:\n");
-        for(String s : strings) {
-            if(cbf.isElement(s)) {
-                System.out.println("(" + strings.indexOf(s) + ") - " + s + " is probably in the Counting Bloom Filter");
-                System.out.println("Count before one deletion: " + cbf.count(s));
-                cbf.deleteElement(s);
-                System.out.println("Count after one deletion: " + cbf.count(s) + "\n");
+        for(int t = 0; t < 2; t++){
+            System.out.println("\n------------------------------------------------------------------------------");
+            if(t == 0) {
+                System.out.println("Initialize a Counting Bloom Filter with " + k + " hash functions");
             } else {
-                System.out.println("(" + strings.indexOf(s) + ") - " + s + " is not in the Counting Bloom Filter");
+                System.out.println("Initialize a Counting Bloom Filter with " + 0.0000001 + " false positive probability");
             }
-        }
-
-        System.out.printf("%s is %s in the Counting Bloom Filter\n", "StringTeste", cbf.isElement("StringTeste") ? "probably" : "not");
-
-        /* Same test with 10000 strings */
-        System.out.println("\nSame test with 10000 strings:\n");
-        m = 10000;
-
-        List<String> strings2 = new ArrayList<>();
-
-        System.out.println("Generating 10000 random strings...");
-        for(int i = 0; i < m; i++) {
-            String randString = "";
-            for(int j = 0; j < stringSize; j++) {
-                randString += Character.toString(alphabet[rand.nextInt(alphabet.length-1)]);
-            }
-            strings2.add(randString);
-        }
-
-        System.out.println("\nCheck if a string is in the Counting Bloom Filter and decrement it value:\n");
-        for(String s : strings2) {
-            if(cbf.isElement(s)) {
-                System.out.println(strings2.indexOf(s) + " - " + s + " is probably in the Counting Bloom Filter");
-                System.out.println("Count: " + cbf.count(s));
+            System.out.println("------------------------------------------------------------------------------");
+            m = 1000;
+            /* Initialize Counting Bloom Filter */
+            CountingBloomFilter<String> cbf;
+            if(t == 0) {
+                cbf = new CountingBloomFilter<>(n, k);
             } else {
-                System.out.println(strings2.indexOf(s) + " - " + s + " is not in the Counting Bloom Filter");
+                cbf = new CountingBloomFilter<>(n, 0.0000001);
             }
+
+            Random rand = new Random();
+            List<String> strings = new ArrayList<>();
+
+            System.out.println("\n*Generating 1000 random strings...");
+            for(int i = 0; i < m; i++) {
+                String randString = "";
+                for(int j = 0; j < stringSize; j++) {
+                    randString += Character.toString(alphabet[rand.nextInt(alphabet.length-1)]);
+                }
+                strings.add(randString);
+                cbf.insertElement(randString);
+                cbf.insertElement(randString);
+            }
+
+            System.out.println("\n-> Check if a string is in the Counting Bloom Filter and decrement it value:");
+            for(String s : strings) {
+                if(cbf.isElement(s)) {
+                    System.out.println("\n(" + strings.indexOf(s) + ") - " + s + " is probably in the Counting Bloom Filter");
+                    System.out.println("Count before one deletion: " + cbf.count(s));
+                    cbf.deleteElement(s);
+                    System.out.println("Count after one deletion: " + cbf.count(s) + "\n");
+                } else {
+                    System.out.println("\n(" + strings.indexOf(s) + ") - " + s + " is not in the Counting Bloom Filter");
+                }
+            }
+
+            System.out.printf("\n%s is %s in the Counting Bloom Filter", "StringTeste", cbf.isElement("StringTeste") ? "probably" : "not");
+
+            /* Same test with 10000 strings */
+            System.out.println("\n\n-> Same test with 10000 strings:");
+            m = 10000;
+
+            List<String> strings2 = new ArrayList<>();
+
+            System.out.println("\n*Generating 10000 random strings...");
+            for(int i = 0; i < m; i++) {
+                String randString = "";
+                for(int j = 0; j < stringSize; j++) {
+                    randString += Character.toString(alphabet[rand.nextInt(alphabet.length-1)]);
+                }
+                strings2.add(randString);
+            }
+
+            int count = 0;
+            System.out.println("\n*Checking if the " + m + " random strings are in the Counting Bloom Filter...");
+            for(String s : strings2) {
+                if(cbf.isElement(s)) {
+                    count++;
+                }
+            }
+
+            System.out.println("\n-> There are " + count + " random strings that seems to be in the Counting Bloom Filter. (False Positives = " + count + ")\n");
         }
+
+
 
         /* End of CountingBloomFilterTest */
         System.out.println("\n---------------------------------");
-        System.out.println("End of Counting Bloom Filter Test");
-        System.out.println("---------------------------------\n");
+        System.out.println("\nEnd of Counting Bloom Filter Test");
+        System.out.println("\n---------------------------------\n");
     }
 }

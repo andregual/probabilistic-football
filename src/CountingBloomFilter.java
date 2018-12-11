@@ -34,11 +34,10 @@ public class CountingBloomFilter<T> {
         }
     }
 
-    public CountingBloomFilter(int setSize, double falsePositiveProbability, int kHashFunctions) {
+    public CountingBloomFilter(int setSize, int kHashFunctions) {
         this.myID = id;
         id++;
-        this.falsePositiveProbability = falsePositiveProbability;
-        this.capacity = (int)Math.ceil( (setSize * Math.log(falsePositiveProbability)) / Math.log(1 / Math.pow(2, Math.log(2))));
+        this.capacity = setSize;
         this.B = new int[capacity];
         this.kHashFunctions = kHashFunctions;
         empty = true;
