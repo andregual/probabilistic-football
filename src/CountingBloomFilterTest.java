@@ -92,8 +92,6 @@ public class CountingBloomFilterTest {
             System.out.println("\n-> There are " + count + " random strings that seems to be in the Counting Bloom Filter. (False Positives = " + count + ")\n");
         }
 
-
-
         /* End of CountingBloomFilterTest */
         System.out.println("\n---------------------------------");
         System.out.println("\nEnd of Counting Bloom Filter Test");

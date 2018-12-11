@@ -82,4 +82,8 @@ public class MinHash {
     public int[][] getMinHashMatrix() {
         return minHashMatrix;
     }
+
+    public HashMap<String, Set<Integer>> getClubs() {
+        return clubs;
+    }
 }

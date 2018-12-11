@@ -30,6 +30,25 @@ public class StochasticCounterTest {
             sc5.incrementStochasticCounter();
         }
 
+        FileWriter fe1 = null;
+        PrintWriter pe1 = null;
+
+        try {
+            fe1 = new FileWriter("stochastic_counter_info.csv");
+            pe1 = new PrintWriter(fe1);
+        } catch(IOException e) {
+            System.out.println("\nErro ao abrir ficheiro!");
+        }
+
+        pe1.write("Stochastic Counter ID;Probability;Events;Value;Expected Value;Variance;Standard Deviation\n");
+        pe1.write(String.format("%d;%.3f;%d;%d;%.3f;%.3f;%.3f\n",sc1.getMyID() + 1,sc1.getProbability(),sc1.getEvents(),sc1.getValue(),sc1.expectedValue(),sc1.getVariance(),sc1.getStandardDeviation()));
+        pe1.write(String.format("%d;%.3f;%d;%d;%.3f;%.3f;%.3f\n",sc2.getMyID() + 1,sc2.getProbability(),sc2.getEvents(),sc2.getValue(),sc2.expectedValue(),sc2.getVariance(),sc2.getStandardDeviation()));
+        pe1.write(String.format("%d;%.3f;%d;%d;%.3f;%.3f;%.3f\n",sc4.getMyID() + 1,sc3.getProbability(),sc3.getEvents(),sc3.getValue(),sc3.expectedValue(),sc3.getVariance(),sc3.getStandardDeviation()));
+        pe1.write(String.format("%d;%.3f;%d;%d;%.3f;%.3f;%.3f\n",sc3.getMyID() + 1,sc4.getProbability(),sc4.getEvents(),sc4.getValue(),sc4.expectedValue(),sc4.getVariance(),sc4.getStandardDeviation()));
+        pe1.write(String.format("%d;%.3f;%d;%d;%.3f;%.3f;%.3f\n",sc5.getMyID() + 1,sc5.getProbability(),sc5.getEvents(),sc5.getValue(),sc5.expectedValue(),sc5.getVariance(),sc5.getStandardDeviation()));
+
+        pe1.close();
+
         /* Print StochasticCounter info */
         System.out.println("STOCHASTIC COUNTERS INFO:\n");
         System.out.println(sc1);

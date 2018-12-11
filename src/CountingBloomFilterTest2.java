@@ -79,11 +79,13 @@ public class CountingBloomFilterTest2 {
         PrintWriter pe1 = null;
 
         try {
-            fe1 = new FileWriter("file1.csv");
+            fe1 = new FileWriter("false_positives_info.csv");
             pe1 = new PrintWriter(fe1);
         } catch(IOException e) {
             System.out.println("\nErro ao abrir ficheiro!");
         }
+
+        pe1.write("Number of Hash Functions;False Positives\n");
 
         for(int i = 0; i < 15; i++) {
             pe1.write(String.format("%d;%d\n",i+1,data1[i]));
