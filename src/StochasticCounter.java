@@ -27,6 +27,11 @@ public class StochasticCounter {
                 '}';
     }
 
+    public void clean() {
+        events = 0;
+        value = 0;
+    }
+
     public void incrementStochasticCounter() {
         double rand = Math.random();
         if(rand < probability) {

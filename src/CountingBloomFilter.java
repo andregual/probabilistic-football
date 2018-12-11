@@ -7,6 +7,7 @@ public class CountingBloomFilter<T> {
     private int capacity;
     private double falsePositiveProbability;
     private int kHashFunctions;
+    private int size;
     private int[] B;
     private boolean empty;
     private int prime = 2147483647;
